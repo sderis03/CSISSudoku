@@ -1,0 +1,343 @@
+<html>
+<h1 style ="color:#922B21 ">Let's Play Sudoku</h1>
+<div style = "color: #ffffff" align = "right">Hi, Dr. van Delden!</div>
+
+<div id="winorlose" style = "font-size: 25px; color:#922B21">Let's get started!!!!!</div>
+<head>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    height: 40px;
+    width: 40px; 
+	background-color: #abcde0;
+}
+input[type="text"] {
+    margin:10px;
+}
+span{
+	text-align: center;
+}
+
+.center{
+	
+    width: 60%;
+    padding: 10px;
+}
+</style>
+</head>
+<body>
+<title>Let's Play Sudoku</title>
+<script>
+//rerender from last time
+var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200){
+			var board = this.responseText; //board
+			for(var i = 1; i<=81;i++){
+			
+				if(board.charAt(i-1) == '0'){
+					document.getElementById("div"+i).innerHTML = "<span><input id='txt" +i + "' type='text'  onkeyup=\"checkDatabase('txt" + i + "')\"style='height:20px; width:20px; font-size:12pt;' class=numInput ></span>";
+				}else{ 
+					document.getElementById("div"+i).innerHTML = board.charAt(i-1);
+				}
+			}
+			document.getElementById("lastmove").innerHTML = Date(); //Restart time
+		}
+	};
+		xhttp.open("GET", "bringupboard.php", true);
+		xhttp.send();
+</script>
+
+<table id= "sudokuBoard" style="width:400">
+<tr>
+    <td style="border-top:3px solid #4169e1;border-left:3px solid #4169e1;"><div id="div1"></div></td>
+	<td style="border-top:3px solid #4169e1;"><div id="div2" ></div></td>
+	<td style="border-top:3px solid #4169e1;"><div id="div3"  ></div></td>
+	<td style="border-top:3px solid #4169e1;border-left:3px solid #4169e1;"><div id="div4"  ></div></td>
+	<td style="border-top:3px solid #4169e1;"><div id="div5" ></div></td>
+	<td style="border-top:3px solid #4169e1;"><div id="div6" > </div></td>
+	<td style="border-top:3px solid #4169e1;border-left:3px solid #4169e1;"><div id="div7"  ></div></td>
+	<td style="border-top:3px solid #4169e1;"><div id="div8"   ></div></td>
+	<td style="border-right:3px solid #4169e1; border-top:3px solid #4169e1;"><div id="div9"></div></td>
+	
+ </tr>
+  <tr>
+	<td style="border-left:3px solid #4169e1;"><div id="div10" ></div></td>
+	<td><div id="div11"  ></div></td>
+	<td><div id="div12" ></div></td>
+	<td style="border-left:3px solid #4169e1;"><div id="div13" ></div></td>
+	<td><div id="div14"   ></div></td>
+	<td ><div id="div15" ></div></td>
+	<td style="border-left:3px solid #4169e1;"><div id="div16"   ></div></td>
+	<td ><div id="div17" ></div></td>
+	<td style="border-right:3px solid #4169e1;"><div id="div18"   ></div></td>
+  </tr>
+	
+   <tr>
+	<td style="border-left:3px solid #4169e1; border-bottom:3px solid #4169e1;" ><div id="div19"></div></td>
+	<td   style="border-bottom:3px solid #4169e1;" ><div id="div20"></div></td>
+	<td   style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1;" ><div id="div21" ></div></td>
+	<td  style="border-bottom:3px solid #4169e1;"><div id="div22" ></div></td>
+	<td   style="border-bottom:3px solid #4169e1;"><div id="div23" ></div></td>
+	<td   style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1; "><div id="div24"  ></div></td>
+	<td  style="border-bottom:3px solid #4169e1;"><div id="div25" ></div></td>
+	<td   style="border-bottom:3px solid #4169e1;" ><div id="div26" ></div></td>
+	<td style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1;"  ><div id="div27" ></div></td>
+  </tr>
+   <tr>
+    <td style="border-left:3px solid #4169e1;" ><div id="div28"  ></div></td>
+	<td ><div id="div29"  ></div></td>
+	<td  style="border-right:3px solid #4169e1;" ><div id="div30" ></div></td>
+	<td ><div id="div31"  ></div></td>
+	<td><div id="div32"   ></div></td>
+	<td   style="border-right:3px solid #4169e1;"><div id="div33" ></div></td>
+	<td ><div id="div34"   ></div></td>
+	<td><div id="div35"   ></div></td>
+	<td style="border-right:3px solid #4169e1;"><div id="div36"  "></div></td>
+	
+ </tr>
+  <tr>
+	<td style="border-left:3px solid #4169e1;"><div id="div37"  ></div></td>
+	<td><div id="div38" ></div></td>
+	<td  style="border-right:3px solid #4169e1;" ><div id="div39" ></div></td>
+	<td ><div id="div40"  ></div></td>
+	<td><div id="div41"  ></div></td>
+	<td style="border-right:3px solid #4169e1;" ><div id="div42"  ></div></td>
+	<td><div id="div43"  ></div></td>
+	<td><div id="div44"   ></div></td>
+	<td style="border-right:3px solid #4169e1;"><div id="div45"  ></div></td>
+  </tr>
+	
+   <tr>
+	<td style="border-left:3px solid #4169e1;border-bottom:3px solid #4169e1;"><div id="div46" ></div></td>
+	<td  style="border-bottom:3px solid #4169e1;"><div id="div47" ></div></td>
+	<td style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1;"><div id="div48"  ></div></td>
+	<td   style="border-bottom:3px solid #4169e1;"><div id="div49" ></div></td>
+	<td  style="border-bottom:3px solid #4169e1;"><div id="div50"  ></div></td>
+	<td  style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1; " ><div id="div51" ></div></td>
+	<td style="border-bottom:3px solid #4169e1;" ><div id="div52" ></div></td>
+	<td   style="border-bottom:3px solid #4169e1;" ><div id="div53" ></div></td>
+	<td  style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1;" ><div id="div54" ></div></td>
+  </tr>
+  <tr>
+    <td style="border-left:3px solid #4169e1;"><div id="div55"   ></div></td>
+	<td><div id="div56"   ></div></td>
+	<td  style="border-right:3px solid #4169e1;"><div id="div57" ></div></td>
+	<td><div id="div58"  ></div></td>
+	<td><div id="div59"   ></div></td>
+	<td  style="border-right:3px solid #4169e1;"><div id="div60" ></div></td>
+	<td><div id="div61"   ></div></td>
+	<td><div id="div62"  ></div></td>
+	<td style="border-right:3px solid #4169e1;"><div id="div63"></div></td>
+	
+ </tr>
+  <tr>
+	<td style="border-left:3px solid #4169e1;"><div id="div64" ></div></td>
+	<td ><div id="div65"  ></div></td>
+	<td   style="border-right:3px solid #4169e1;"><div id="div66" ></div></td>
+	<td ><div id="div67"  ></div></td>
+	<td ><div id="div68"   ></div></td>
+	<td  style="border-right:3px solid #4169e1;" ><div id="div69"></div></td>
+	<td ><div id="div70"   ></div></td>
+	<td ><div id="div71"   ></div></td>
+	<td style="border-right:3px solid #4169e1;"><div id="div72"></div></td>
+  </tr>
+	
+   <tr>
+	<td style="border-left:3px solid #4169e1; border-bottom:3px solid #4169e1;"><div id="div73" ></div></td>
+	<td style ="border-bottom:3px solid #4169e1;"><div id="div74"  ></div></td>
+	<td  style="border-right:3px solid #4169e1;border-bottom:3px solid #4169e1;"><div id="div75" ></div></td>
+	<td style ="border-bottom:3px solid #4169e1;"><div id="div76"  ></div></td>
+	<td style ="border-bottom:3px solid #4169e1;"><div id="div77"  ></div></td>
+	<td style="border-right:3px solid #4169e1; border-bottom:3px solid #4169e1;"><div id="div78" ></div></td>
+	<td style ="border-bottom:3px solid #4169e1;"><div id="div79"   ></div></td>
+	<td style ="border-bottom:3px solid #4169e1;"><div id="div80"  ></div></td>
+	<td style ="border-bottom:3px solid #4169e1; border-right:3px solid #4169e1; "><div id="div81"  ></div></td>
+  </tr>
+</table>
+
+
+</br>
+</br>
+LAST MOVE MADE AT: &nbsp;<span id = "lastmove" style = "color:#922B21"></span>
+</br></br>
+<button type="button" onclick = 'getHints()'>Give me a Hint!</button></br>
+<div id="hint"></div>
+
+</br></br>
+New Game: </br>
+<button type="button" onclick = "getNewGameLevel1()" id = "Level1">Level 1</button>&nbsp;
+<button type="button" onclick = "getNewGameLevel2()" id = "Level2">Level 2</button>&nbsp;
+<button type="button" onclick = "getNewGameLevel3()" id = "Level3">Level 3</button>&nbsp;
+<button type="button" onclick = "getNewGameLevel4()" id = "Level4">Level 4</button>&nbsp;
+<button type="button" onclick = "getNewGameLevel5()" id = "Level5">Level 5</button>&nbsp;
+
+<div style = "color: #ffffff">Hi, ClayD!</div>
+<div style = "color: #ffffff" align= "right">Hi, cam cam!</div>
+
+<script>
+function getNewGameLevel1(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200){
+			var board = this.responseText; //board
+			for(var i = 1; i<=81;i++){
+			
+				if(board.charAt(i-1) == '0'){
+					document.getElementById("div"+i).innerHTML = "<span><input id='txt" +i + "' type='text'  onkeyup=\"checkDatabase('txt" + i + "')\"style='height:20px; width:20px; font-size:12pt;' class=numInput ></span>";
+				}else{ 
+					document.getElementById("div"+i).innerHTML = board.charAt(i-1);
+				}
+			}
+			document.getElementById("winorlose").style.color = "#8E44AD";
+			document.getElementById("winorlose").fontsize = "16px";
+			document.getElementById("winorlose").innerHTML = "Starting Level 1! The smartest person alive finished this level in 2 milliseconds! Try and beat their time!";
+			document.getElementById("lastmove").innerHTML = "Restarted "; //Restart time
+		}
+	};
+		xhttp.open("GET", "newgamelevel1.php", true);
+		xhttp.send();
+}
+function getNewGameLevel2(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200){
+			var board = this.responseText; //board
+			for(var i = 1; i<=81;i++){
+				if(board.charAt(i-1) == '0'){
+					document.getElementById("div"+i).innerHTML =  "<span><input id='txt" +i + "' type='text'  onkeyup=\"checkDatabase('txt" + i + "')\"style='height:20px; width:20px; font-size:12pt;' class=numInput ></span>";
+					}else{ 
+					document.getElementById("div"+i).innerHTML = board.charAt(i-1);
+				}
+			}
+		
+			document.getElementById("winorlose").style.color = "#8E44AD";
+			document.getElementById("winorlose").fontsize = "16px";
+			document.getElementById("winorlose").innerHTML = "Starting Level 2! Crankin' it up a notch!! ";
+			document.getElementById("lastmove").innerHTML = "Restarted "; //Restart time
+		}
+	};
+		xhttp.open("GET", "newgamelevel2.php", true);
+		xhttp.send();
+}
+function getNewGameLevel3(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200){
+			var board = this.responseText; //board
+			for(var i = 1; i<=81;i++){
+			
+				if(board.charAt(i-1) == '0'){
+					document.getElementById("div"+i).innerHTML = "<span><input id='txt" +i + "' type='text'  onkeyup=\"checkDatabase('txt" + i + "')\"style='height:20px; width:20px; font-size:12pt;' class=numInput ></span>";
+				}else{ 
+					document.getElementById("div"+i).innerHTML = board.charAt(i-1);
+				}
+			}
+			document.getElementById("winorlose").style.color = "#8E44AD";
+			document.getElementById("winorlose").fontsize = "16px";
+			document.getElementById("winorlose").innerHTML = "Starting Level 3! Can you beat it? I think so!";
+			document.getElementById("lastmove").innerHTML = "Restarted"; //Restart time
+		}
+	};
+		xhttp.open("GET", "newgamelevel3.php", true);
+		xhttp.send();
+}
+function getNewGameLevel4(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200){
+			var board = this.responseText; //board
+			for(var i = 1; i<=81;i++){
+			
+				if(board.charAt(i-1) == '0'){
+					document.getElementById("div"+i).innerHTML =  "<span><input id='txt" +i + "' type='text'  onkeyup=\"checkDatabase('txt" + i + "')\"style='height:20px; width:20px; font-size:12pt;' class=numInput ></span>";
+				}else{ 
+					document.getElementById("div"+i).innerHTML = board.charAt(i-1);
+				}
+			}
+			document.getElementById("winorlose").style.color = "#8E44AD";
+			document.getElementById("winorlose").fontsize = "16px";
+			document.getElementById("winorlose").innerHTML = "Starting Level 4! Wow, you must be really good at this game!";
+			document.getElementById("lastmove").innerHTML = "Restarted"; //Restart time
+		}
+	};
+		xhttp.open("GET", "newgamelevel4.php", true);
+		xhttp.send();
+}
+function getNewGameLevel5(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState ==4 && this.status ==200){
+			var board = this.responseText; //board
+			for(var i = 1; i<=81;i++){
+			
+				if(board.charAt(i-1) == '0'){
+					document.getElementById("div"+i).innerHTML = "<span><input id='txt" +i + "' type='text'  onkeyup=\"checkDatabase('txt" + i + "')\"style='height:20px; width:20px; font-size:12pt;' class=numInput ></span>";
+				}else{ 
+					document.getElementById("div"+i).innerHTML = board.charAt(i-1);
+				}
+			}
+			document.getElementById("winorlose").style.color = "#8E44AD";
+			document.getElementById("winorlose").fontsize = "16px";
+			document.getElementById("winorlose").innerHTML = "Starting Level 5! It's a tough one! Although... YOU ARE SMART";
+			document.getElementById("lastmove").innerHTML = ""; //Restart time
+		}
+	};
+		xhttp.open("GET", "newgamelevel5.php", true);
+		xhttp.send();
+}
+function getHints(){
+	var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if (this.readyState ==4 && this.status ==200){
+				var index = this.responseText.substr(2);
+				var value = this.responseText.substr(0,1);
+				 for( var i = 0; i<81; i++){
+					if(i + 1 == index){
+						var k = i+1;
+						document.getElementById("div"+index).innerHTML = value;
+					}
+				}
+				document.getElementById("winorlose").style.color = "#8E44AD";
+				document.getElementById("winorlose").fontsize = "16px";
+				document.getElementById("winorlose").innerHTML = "You don't need a hint! You're smart! Try not to use one! But, here's one anyways!";
+				document.getElementById("lastmove").innerHTML = Date();
+			}
+		};
+		
+		xhttp.open("GET", "gethints.php" , true);
+		xhttp.send();
+}
+function checkDatabase(txtNum){
+	// value is a number from 1 to 9.  
+	var val = document.getElementById(txtNum).value;	
+
+	var index = txtNum.substr(3);
+	var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if (this.readyState ==4 && this.status ==200){
+				if(this.responseText == '0'){
+					document.getElementById(txtNum).value = "";
+					document.getElementById("winorlose").style.color = "#FF0000";
+					document.getElementById("winorlose").innerHTML = "Try again!";
+				}else{
+					document.getElementById("div"+index).innerHTML = val;
+					document.getElementById("winorlose").style.color = "#229954";
+					document.getElementById("winorlose").fontsize = "16px";
+					document.getElementById("winorlose").innerHTML = "Yay! Good Job!";
+				}
+			
+			document.getElementById("lastmove").innerHTML = Date();
+			}
+		};
+		
+		
+		xhttp.open("GET", "checkdatabase.php?q=" +val+txtNum, true);
+		xhttp.send();
+}
+</script>
+</body>
+</html>
